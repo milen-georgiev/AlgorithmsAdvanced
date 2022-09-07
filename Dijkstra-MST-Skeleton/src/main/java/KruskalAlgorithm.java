@@ -1,12 +1,44 @@
-import java.util.List;
+import java.util.*;
 
 public class KruskalAlgorithm {
 
     public static List<Edge> kruskal(int numberOfVertices, List<Edge> edges) {
-        return null;
+//        PriorityQueue<Edge> orderEdges = new PriorityQueue<>(edges);
+
+        Collections.sort(edges);
+
+        List<Edge> forest =new ArrayList<>();
+
+        int[] parents = new int[numberOfVertices];
+
+        for (int i = 0; i < parents.length; i++) {
+            parents[i] = i;
+        }
+
+        while (!edges.isEmpty()) {
+            Edge edge = edges.remove(0);
+
+            int source = edge.getStartNode();
+            int dest = edge.getEndNode();
+
+            int firstRoot = findRoot(source,parents);
+            int secondRoot = findRoot(dest,parents);
+
+            if (firstRoot != secondRoot) {
+                forest.add(edge);
+                parents[firstRoot] = secondRoot;
+            }
+        }
+
+        return forest;
     }
 
     public static int findRoot(int node, int[] parents) {
-        return 0;
+
+        while (parents[node] != node) {
+            node = parents[node];
+        }
+
+        return node;
     }
 }
