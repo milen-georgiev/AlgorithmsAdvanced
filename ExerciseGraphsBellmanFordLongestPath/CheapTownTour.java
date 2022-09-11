@@ -15,6 +15,7 @@ public class CheapTownTour {
             int[] tokens = Arrays.stream(scanner.nextLine().split(" - "))
                     .mapToInt(Integer::parseInt)
                     .toArray();
+
             int source = tokens[0];
             int destination = tokens[1];
             int weight = tokens[2];
