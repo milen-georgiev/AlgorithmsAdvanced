@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Dijkstra-MST" />
+        <module name="Dijkstra-MST-Skeleton" />
       </profile>
     </annotationProcessing>
   </component>

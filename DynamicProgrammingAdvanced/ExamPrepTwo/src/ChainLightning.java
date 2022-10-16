@@ -22,7 +22,7 @@ public class ChainLightning {
         }
     }
 
-    public static List<Edge>[] graph;
+    public static List<Edge> graph;
     public static boolean[] visited;
     public static int[] damage;
     public static Map<Integer,List<Integer>> forest = new HashMap<>();
@@ -33,15 +33,15 @@ public class ChainLightning {
 
         int nodes = Integer.parseInt(scanner.readLine());
         int edges = Integer.parseInt(scanner.readLine());
-        int hitsCount = Integer.parseInt(scanner.readLine());
+        int[] hitsCount = Arrays.stream(scanner.readLine().split("\\s+"))
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
-        graph = new ArrayList[nodes];
+        graph = new ArrayList<>(nodes);
         visited = new boolean[nodes];
         damage = new int[nodes];
 
-        for (int i = 0; i < nodes; i++) {
-            graph[i] = new ArrayList<>();
-        }
+
 
         for (int i = 0; i < edges; i++) {
             int[] tokens = Arrays.stream(scanner.readLine().split("\\s+"))
@@ -54,8 +54,7 @@ public class ChainLightning {
 
             Edge edge = new Edge(from, to,weight);
 
-            graph[from].add(edge);
-            graph[to].add(edge);
+            graph.add(edge);
         }
 
 
@@ -64,31 +63,9 @@ public class ChainLightning {
         }
 
 
-        for (int i = 0; i < hitsCount; i++) {
-            int[] tokens = Arrays.stream(scanner.readLine().split("\\s+"))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
-            int parent = tokens[0];
-            int power = tokens[1];
-
-            damageNodes(parent, parent, power);
-
-        }
-        System.out.println(Arrays.stream(damage).max().getAsInt());
-    }
-
-    private static void damageNodes(int parent,int next, int power) {
-        damage[parent] += power;
-        if (forest.get(parent) != null){
-
-            for (int child : forest.get(parent)) {
-                if (child != next){
-                    damageNodes(child,parent, power/2);
-                }
-            }
-        }
 
     }
+
 
 
     private static void msf(int node) {
@@ -125,7 +102,7 @@ public class ChainLightning {
     private static void visitNodes(int node, PriorityQueue<Edge> queue) {
         visited[node] = true;
 
-        for (Edge edge : graph[node]) {
+        for (Edge edge : graph) {
             int nextNode = node == edge.from ? edge.to : edge.from;
             if(!visited[nextNode]) {
                 queue.offer(edge);
